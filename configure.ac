@@ -93,10 +93,24 @@ SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 AC_SUBST(SOIL_CPPFLAGS)
 AC_SUBST(SOIL_LIBADD)
 
+dnl cata lib
+CATA_HOME=$home_libs/cata
+AC_ARG_WITH([cata], 
+    [AS_HELP_STRING([--with-cata],
+        [home path of the cata, defaults to $CATA_HOME])],
+    [CATA_HOME="$withval"],
+    [CATA_HOME="$CATA_HOME"])
+AC_SUBST([CATA_HOME])
+
+CATA_CPPFLAGS="-I$CATA_HOME/include"
+CATA_LIBADD="$CATA_HOME/lib/libcata.la"
+AC_SUBST(CATA_CPPFLAGS)
+AC_SUBST(CATA_LIBADD)
 
 
 AC_OUTPUT([
 	Makefile
-	proxy/Makefile])
+	proxy/Makefile
+	md/Makefile])
 
 

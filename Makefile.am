@@ -1,5 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = proxy
+SUBDIRS = proxy md
 
 EXTRA_DIST = deploy.sh

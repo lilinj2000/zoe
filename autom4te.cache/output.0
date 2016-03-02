@@ -636,6 +636,9 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIB@&t@OBJS
+CATA_LIBADD
+CATA_CPPFLAGS
+CATA_HOME
 SOIL_LIBADD
 SOIL_CPPFLAGS
 SOIL_HOME
@@ -783,6 +786,7 @@ enable_libtool_lock
 with_zmq
 with_boost
 with_soil
+with_cata
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1438,6 +1442,7 @@ Optional Packages:
   --with-zmq              home path of the zmq, defaults to @S|@ZMQ_HOME
   --with-boost            home path of the boost, defaults to @S|@home_3rd/boost
   --with-soil             home path of the soil, defaults to @S|@home_libs/soil
+  --with-cata             home path of the cata, defaults to @S|@CATA_HOME
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -15168,9 +15173,24 @@ SOIL_LIBADD="$SOIL_HOME/lib/libsoil.la"
 
 
 
+CATA_HOME=$home_libs/cata
+
+@%:@ Check whether --with-cata was given.
+if test "${with_cata+set}" = set; then :
+  withval=$with_cata; CATA_HOME="$withval"
+else
+  CATA_HOME="$CATA_HOME"
+fi
 
 
-ac_config_files="$ac_config_files Makefile proxy/Makefile"
+
+CATA_CPPFLAGS="-I$CATA_HOME/include"
+CATA_LIBADD="$CATA_HOME/lib/libcata.la"
+
+
+
+
+ac_config_files="$ac_config_files Makefile proxy/Makefile md/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16296,6 +16316,7 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "proxy/Makefile") CONFIG_FILES="$CONFIG_FILES proxy/Makefile" ;;
+    "md/Makefile") CONFIG_FILES="$CONFIG_FILES md/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

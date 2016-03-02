@@ -202,6 +202,9 @@ AWK = @AWK@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_HOME = @BOOST_HOME@
 BOOST_LIBADD = @BOOST_LIBADD@
+CATA_CPPFLAGS = @CATA_CPPFLAGS@
+CATA_HOME = @CATA_HOME@
+CATA_LIBADD = @CATA_LIBADD@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -325,7 +328,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = proxy
+SUBDIRS = proxy md
 EXTRA_DIST = deploy.sh
 all: all-recursive
 
