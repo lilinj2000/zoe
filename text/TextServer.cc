@@ -15,12 +15,7 @@ TextServer::TextServer(TextOptions* options):
 {
   TEXT_TRACE <<"TextServer::TextServer()";
 
-  text_file_.open(options_->text_file);
-  if( !text_file_.good() )
-  {
-    std::string err = "open file failed. ";
-    throw std::runtime_error( err+options_->text_file );
-  }
+  text_file_.reset( new soil::DataFile(options_->text_file) );
   
   context_ = zmq_ctx_new();
   assert( context_ );
@@ -52,7 +47,6 @@ TextServer::~TextServer()
   
   zmq_ctx_destroy( context_ );
 
-  text_file_.close();
 }
 
 void TextServer::run()
@@ -73,7 +67,9 @@ void TextServer::run()
     {
       TEXT_DEBUG <<"recv msg ...";
 
-      text_file_ <<(char *)zmq_msg_data(&msg);
+      std::string data((char *)zmq_msg_data(&msg));
+      
+      text_file_->putData( new MData(data) );
     }
 
     zmq_msg_close( &msg );

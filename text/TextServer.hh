@@ -1,10 +1,31 @@
 #ifndef TEXT_SERVER_HH
 #define TEXT_SERVER_HH
 
-#include <fstream>
+#include "soil/DataFile.hh"
 
 namespace text
 {
+
+class MData : public soil::Data
+{
+ public:
+  MData(const std::string& data):
+      data_(data)
+  {
+  }
+
+  virtual ~MData()
+  {
+  }
+
+  virtual void writeToFile(std::ofstream& os) const
+  {
+    os <<data_;
+  }
+
+ private:
+  std::string data_;
+};
 
 class TextOptions;
 
@@ -26,8 +47,7 @@ class TextServer
   void* context_;
   void* sub_;
 
-  std::ofstream text_file_;
-  
+  std::unique_ptr<soil::DataFile> text_file_;
 };
 
 
