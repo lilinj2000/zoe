@@ -15190,7 +15190,7 @@ CATA_LIBADD="$CATA_HOME/lib/libcata.la"
 
 
 
-ac_config_files="$ac_config_files Makefile proxy/Makefile md/Makefile"
+ac_config_files="$ac_config_files Makefile proxy/Makefile md/Makefile text/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16317,6 +16317,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "proxy/Makefile") CONFIG_FILES="$CONFIG_FILES proxy/Makefile" ;;
     "md/Makefile") CONFIG_FILES="$CONFIG_FILES md/Makefile" ;;
+    "text/Makefile") CONFIG_FILES="$CONFIG_FILES text/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

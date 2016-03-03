@@ -111,6 +111,7 @@ AC_SUBST(CATA_LIBADD)
 AC_OUTPUT([
 	Makefile
 	proxy/Makefile
-	md/Makefile])
+	md/Makefile
+	text/Makefile])
 
 
