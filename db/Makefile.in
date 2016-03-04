@@ -79,8 +79,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = md$(EXEEXT)
-subdir = md
+bin_PROGRAMS = db$(EXEEXT)
+subdir = db
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp $(noinst_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -95,19 +95,19 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_md_OBJECTS = md-MDConfig.$(OBJEXT) md-MDServer.$(OBJEXT) \
-	md-Main.$(OBJEXT)
-md_OBJECTS = $(am_md_OBJECTS)
+am_db_OBJECTS = db-DBConfig.$(OBJEXT) db-DBServer.$(OBJEXT) \
+	db-Main.$(OBJEXT)
+db_OBJECTS = $(am_db_OBJECTS)
 am__DEPENDENCIES_1 =
-md_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+db_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-md_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+db_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
-	$(CXXFLAGS) $(md_LDFLAGS) $(LDFLAGS) -o $@
+	$(CXXFLAGS) $(db_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -142,8 +142,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(md_SOURCES)
-DIST_SOURCES = $(md_SOURCES)
+SOURCES = $(db_SOURCES)
+DIST_SOURCES = $(db_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -312,28 +312,29 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-md_SOURCES = \
-	MDConfig.cc \
-	MDServer.cc \
+db_SOURCES = \
+	DBConfig.cc \
+	DBServer.cc \
 	Main.cc
 
-md_CPPFLAGS = \
+db_CPPFLAGS = \
 		$(BOOST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
 		$(ZMQ_CPPFLAGS) \
-		$(CATA_CPPFLAGS)
+		$(SQLITE_CPPFLAGS) \
+		$(RAPIDJSON_CPPFLAGS)
 
-md_LDADD = \
+db_LDADD = \
 	$(BOOST_LIBADD) \
 	$(SOIL_LIBADD) \
 	$(ZMQ_LIBADD) \
-	$(CATA_LIBADD)
+	$(SQLITE_LIBADD)
 
-md_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
+db_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
 # header files
-noinst_HEADERS = MDConfig.hh MDLog.hh MDServer.hh 
-EXTRA_DIST = env.sh md.cfg log.cfg
+noinst_HEADERS = DBConfig.hh DBLog.hh DBServer.hh 
+EXTRA_DIST = env.sh db.cfg log.cfg
 all: all-am
 
 .SUFFIXES:
@@ -347,9 +348,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign md/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign db/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign md/Makefile
+	  $(AUTOMAKE) --foreign db/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -418,9 +419,9 @@ clean-binPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-md$(EXEEXT): $(md_OBJECTS) $(md_DEPENDENCIES) $(EXTRA_md_DEPENDENCIES) 
-	@rm -f md$(EXEEXT)
-	$(AM_V_CXXLD)$(md_LINK) $(md_OBJECTS) $(md_LDADD) $(LIBS)
+db$(EXEEXT): $(db_OBJECTS) $(db_DEPENDENCIES) $(EXTRA_db_DEPENDENCIES) 
+	@rm -f db$(EXEEXT)
+	$(AM_V_CXXLD)$(db_LINK) $(db_OBJECTS) $(db_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -428,9 +429,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-MDConfig.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-MDServer.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db-DBConfig.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db-DBServer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db-Main.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -453,47 +454,47 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-md-MDConfig.o: MDConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDConfig.o -MD -MP -MF $(DEPDIR)/md-MDConfig.Tpo -c -o md-MDConfig.o `test -f 'MDConfig.cc' || echo '$(srcdir)/'`MDConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDConfig.Tpo $(DEPDIR)/md-MDConfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDConfig.cc' object='md-MDConfig.o' libtool=no @AMDEPBACKSLASH@
+db-DBConfig.o: DBConfig.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT db-DBConfig.o -MD -MP -MF $(DEPDIR)/db-DBConfig.Tpo -c -o db-DBConfig.o `test -f 'DBConfig.cc' || echo '$(srcdir)/'`DBConfig.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/db-DBConfig.Tpo $(DEPDIR)/db-DBConfig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='DBConfig.cc' object='db-DBConfig.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDConfig.o `test -f 'MDConfig.cc' || echo '$(srcdir)/'`MDConfig.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o db-DBConfig.o `test -f 'DBConfig.cc' || echo '$(srcdir)/'`DBConfig.cc
 
-md-MDConfig.obj: MDConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDConfig.obj -MD -MP -MF $(DEPDIR)/md-MDConfig.Tpo -c -o md-MDConfig.obj `if test -f 'MDConfig.cc'; then $(CYGPATH_W) 'MDConfig.cc'; else $(CYGPATH_W) '$(srcdir)/MDConfig.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDConfig.Tpo $(DEPDIR)/md-MDConfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDConfig.cc' object='md-MDConfig.obj' libtool=no @AMDEPBACKSLASH@
+db-DBConfig.obj: DBConfig.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT db-DBConfig.obj -MD -MP -MF $(DEPDIR)/db-DBConfig.Tpo -c -o db-DBConfig.obj `if test -f 'DBConfig.cc'; then $(CYGPATH_W) 'DBConfig.cc'; else $(CYGPATH_W) '$(srcdir)/DBConfig.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/db-DBConfig.Tpo $(DEPDIR)/db-DBConfig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='DBConfig.cc' object='db-DBConfig.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDConfig.obj `if test -f 'MDConfig.cc'; then $(CYGPATH_W) 'MDConfig.cc'; else $(CYGPATH_W) '$(srcdir)/MDConfig.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o db-DBConfig.obj `if test -f 'DBConfig.cc'; then $(CYGPATH_W) 'DBConfig.cc'; else $(CYGPATH_W) '$(srcdir)/DBConfig.cc'; fi`
 
-md-MDServer.o: MDServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDServer.o -MD -MP -MF $(DEPDIR)/md-MDServer.Tpo -c -o md-MDServer.o `test -f 'MDServer.cc' || echo '$(srcdir)/'`MDServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDServer.Tpo $(DEPDIR)/md-MDServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDServer.cc' object='md-MDServer.o' libtool=no @AMDEPBACKSLASH@
+db-DBServer.o: DBServer.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT db-DBServer.o -MD -MP -MF $(DEPDIR)/db-DBServer.Tpo -c -o db-DBServer.o `test -f 'DBServer.cc' || echo '$(srcdir)/'`DBServer.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/db-DBServer.Tpo $(DEPDIR)/db-DBServer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='DBServer.cc' object='db-DBServer.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDServer.o `test -f 'MDServer.cc' || echo '$(srcdir)/'`MDServer.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o db-DBServer.o `test -f 'DBServer.cc' || echo '$(srcdir)/'`DBServer.cc
 
-md-MDServer.obj: MDServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDServer.obj -MD -MP -MF $(DEPDIR)/md-MDServer.Tpo -c -o md-MDServer.obj `if test -f 'MDServer.cc'; then $(CYGPATH_W) 'MDServer.cc'; else $(CYGPATH_W) '$(srcdir)/MDServer.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDServer.Tpo $(DEPDIR)/md-MDServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDServer.cc' object='md-MDServer.obj' libtool=no @AMDEPBACKSLASH@
+db-DBServer.obj: DBServer.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT db-DBServer.obj -MD -MP -MF $(DEPDIR)/db-DBServer.Tpo -c -o db-DBServer.obj `if test -f 'DBServer.cc'; then $(CYGPATH_W) 'DBServer.cc'; else $(CYGPATH_W) '$(srcdir)/DBServer.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/db-DBServer.Tpo $(DEPDIR)/db-DBServer.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='DBServer.cc' object='db-DBServer.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDServer.obj `if test -f 'MDServer.cc'; then $(CYGPATH_W) 'MDServer.cc'; else $(CYGPATH_W) '$(srcdir)/MDServer.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o db-DBServer.obj `if test -f 'DBServer.cc'; then $(CYGPATH_W) 'DBServer.cc'; else $(CYGPATH_W) '$(srcdir)/DBServer.cc'; fi`
 
-md-Main.o: Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-Main.o -MD -MP -MF $(DEPDIR)/md-Main.Tpo -c -o md-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-Main.Tpo $(DEPDIR)/md-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='md-Main.o' libtool=no @AMDEPBACKSLASH@
+db-Main.o: Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT db-Main.o -MD -MP -MF $(DEPDIR)/db-Main.Tpo -c -o db-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/db-Main.Tpo $(DEPDIR)/db-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='db-Main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o db-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc
 
-md-Main.obj: Main.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-Main.obj -MD -MP -MF $(DEPDIR)/md-Main.Tpo -c -o md-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-Main.Tpo $(DEPDIR)/md-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='md-Main.obj' libtool=no @AMDEPBACKSLASH@
+db-Main.obj: Main.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT db-Main.obj -MD -MP -MF $(DEPDIR)/db-Main.Tpo -c -o db-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/db-Main.Tpo $(DEPDIR)/db-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main.cc' object='db-Main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(db_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o db-Main.obj `if test -f 'Main.cc'; then $(CYGPATH_W) 'Main.cc'; else $(CYGPATH_W) '$(srcdir)/Main.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -707,8 +708,8 @@ uninstall-am: uninstall-binPROGRAMS
 	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
 
-# mddir = $(bindir)
-# md_DATA = $(EXTRA_DIST)
+# dbdir = $(bindir)
+# db_DATA = $(EXTRA_DIST)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

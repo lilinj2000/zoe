@@ -645,6 +645,11 @@ SOIL_HOME
 BOOST_LIBADD
 BOOST_CPPFLAGS
 BOOST_HOME
+RAPIDJSON_CPPFLAGS
+RAPIDJSON_HOME
+SQLITE_LIBADD
+SQLITE_CPPFLAGS
+SQLITE_HOME
 ZMQ_LIBADD
 ZMQ_CPPFLAGS
 ZMQ_HOME
@@ -785,6 +790,8 @@ with_gnu_ld
 with_sysroot
 enable_libtool_lock
 with_zmq
+with_sqlite
+with_rapidjson
 with_boost
 with_soil
 with_cata
@@ -1441,6 +1448,9 @@ Optional Packages:
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
   --with-zmq              home path of the zmq, defaults to @S|@ZMQ_HOME
+  --with-sqlite           home path of the sqlite, defaults to @S|@SQLITE_HOME
+  --with-rapidjson        home path of the rapidjson, defaults to
+                          @S|@RAPIDJSON_HOME
   --with-boost            home path of the boost, defaults to @S|@home_3rd/boost
   --with-soil             home path of the soil, defaults to @S|@home_libs/soil
   --with-cata             home path of the cata, defaults to @S|@CATA_HOME
@@ -15325,6 +15335,36 @@ ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
 
 
 
+SQLITE_HOME=$home_3rd/sqlite
+
+@%:@ Check whether --with-sqlite was given.
+if test "${with_sqlite+set}" = set; then :
+  withval=$with_sqlite; SQLITE_HOME="$withval"
+else
+  SQLITE_HOME="$SQLITE_HOME"
+fi
+
+
+
+SQLITE_CPPFLAGS="-I$SQLITE_HOME/include"
+SQLITE_LIBADD="$SQLITE_HOME/lib/libsqlite3.la"
+
+
+
+RAPIDJSON_HOME=$home_3rd/rapidjson
+
+@%:@ Check whether --with-rapidjson was given.
+if test "${with_rapidjson+set}" = set; then :
+  withval=$with_rapidjson; RAPIDJSON_HOME="$withval"
+else
+  RAPIDJSON_HOME="$RAPIDJSON_HOME"
+fi
+
+
+
+RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include"
+
+
 
 @%:@ Check whether --with-boost was given.
 if test "${with_boost+set}" = set; then :
@@ -15380,7 +15420,7 @@ CATA_LIBADD="$CATA_HOME/lib/libcata.la"
 
 
 
-ac_config_files="$ac_config_files Makefile proxy/Makefile md/Makefile text/Makefile"
+ac_config_files="$ac_config_files Makefile proxy/Makefile md/Makefile text/Makefile db/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16508,6 +16548,7 @@ do
     "proxy/Makefile") CONFIG_FILES="$CONFIG_FILES proxy/Makefile" ;;
     "md/Makefile") CONFIG_FILES="$CONFIG_FILES md/Makefile" ;;
     "text/Makefile") CONFIG_FILES="$CONFIG_FILES text/Makefile" ;;
+    "db/Makefile") CONFIG_FILES="$CONFIG_FILES db/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

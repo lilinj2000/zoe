@@ -9,8 +9,7 @@ text_SOURCES = \
 text_CPPFLAGS =  \
 		$(BOOST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
-		$(ZMQ_CPPFLAGS) \
-		$(CATA_CPPFLAGS)
+		$(ZMQ_CPPFLAGS)
 
 text_LDADD = \
 	$(BOOST_LIBADD) \

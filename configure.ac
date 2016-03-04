@@ -59,6 +59,32 @@ ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
 AC_SUBST(ZMQ_CPPFLAGS)
 AC_SUBST(ZMQ_LIBADD)
 
+dnl sqlite lib
+SQLITE_HOME=$home_3rd/sqlite
+AC_ARG_WITH([sqlite], 
+    [AS_HELP_STRING([--with-sqlite],
+        [home path of the sqlite, defaults to $SQLITE_HOME])],
+    [SQLITE_HOME="$withval"],
+    [SQLITE_HOME="$SQLITE_HOME"])
+AC_SUBST([SQLITE_HOME])
+
+SQLITE_CPPFLAGS="-I$SQLITE_HOME/include"
+SQLITE_LIBADD="$SQLITE_HOME/lib/libsqlite3.la"
+AC_SUBST(SQLITE_CPPFLAGS)
+AC_SUBST(SQLITE_LIBADD)
+
+dnl rapidjson lib
+RAPIDJSON_HOME=$home_3rd/rapidjson
+AC_ARG_WITH([rapidjson], 
+    [AS_HELP_STRING([--with-rapidjson],
+        [home path of the rapidjson, defaults to $RAPIDJSON_HOME])],
+    [RAPIDJSON_HOME="$withval"],
+    [RAPIDJSON_HOME="$RAPIDJSON_HOME"])
+AC_SUBST([RAPIDJSON_HOME])
+
+RAPIDJSON_CPPFLAGS="-I$RAPIDJSON_HOME/include"
+AC_SUBST(RAPIDJSON_CPPFLAGS)
+
 dnl boost lib
 AC_ARG_WITH([boost],
     [AS_HELP_STRING([--with-boost],
@@ -112,6 +138,7 @@ AC_OUTPUT([
 	Makefile
 	proxy/Makefile
 	md/Makefile
-	text/Makefile])
+	text/Makefile
+	db/Makefile])
 
 
