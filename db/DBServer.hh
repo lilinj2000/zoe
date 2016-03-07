@@ -3,6 +3,10 @@
 
 #include "sqlite3.h"
 #include "soil/MsgQueue.hh"
+#include "rapidjson/document.h"
+
+#include <set>
+#include <map>
 
 namespace db
 {
@@ -22,6 +26,12 @@ class DBServer
   void run();
 
   void processMsg(const std::string& msg);
+
+  bool checkTable(const std::string& tbl_name);
+  
+  void createTable(const std::string& tbl_name, rapidjson::Value& mdata);
+
+  void insertData(const std::string& tbl_name, rapidjson::Value& mdata);
   
  private:
 
@@ -38,6 +48,9 @@ class DBServer
   std::unique_ptr<soil::MsgQueue<std::string, MsgCallback> > msg_queue_;
 
   std::set<size_t> instrus_hash_;
+
+  typedef std::map<size_t, sqlite3_stmt*> InsertSqlMap;
+  InsertSqlMap insert_sqls_;
 };
 
 class MsgCallback

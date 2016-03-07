@@ -3,7 +3,6 @@
 #include "DBLog.hh"
 
 #include "zmq.h"
-#include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
@@ -63,6 +62,12 @@ DBServer::~DBServer()
   
   zmq_ctx_destroy( context_ );
 
+  for(InsertSqlMap::iterator itr=insert_sqls_.begin();
+      itr!=insert_sqls_.end(); ++itr)
+  {
+    sqlite3_finalize( itr->second );
+  }
+
   sqlite3_close( db_ );
 
 }
@@ -117,68 +122,188 @@ void DBServer::processMsg(const std::string& msg)
 
   if( instrus_hash_.count(str_hash(tbl_name)) )
   {
-    // just do insert table
+    insertData(tbl_name, mdata);
+    
     return ;
   }
 
-  // instrus_hash_.insert( str_hash(tbl_name) );
-  std::string create_sql = "CREATE TABLE ";
-  create_sql += tbl_name ;
-  create_sql += "( "
-      "TradingDay varchar(10), "
-      "InstrumentID varchar(10), "
-      "ExchangeID varchar(10), "
-      "ExchangeInstID varchar(10), "
-      "LastPrice double, "
-      "PreSettlementPrice double, "
-      "PreClosePrice double, "
-      "PreOpenInterest double, "
-      "OpenPrice double, "
-      "HighestPrice double, "
-      "LowestPrice double, "
-      "Volume int, "
-      "Turnover int, "
-      "OpenInterest double, "
-      "ClosePrice double, "
-      "SettlementPrice double, "
-      "UpperLimitPrice double, "
-      "LowerLimitPrice double, "
-      "PreDelta double, "
-      "CurrDelta double, "
-      "UpdateTime varchar(10), "
-      "UpdateMillisec int, "
-      "BidPrice1 double, "
-      "BidVolume1 double, "
-      "AskPrice1 double, "
-      "AskVolume1 double, "
-      "BidPrice2 double, "
-      "BidVolume2 double, "
-      "AskPrice2 double, "
-      "AskVolume2 double, "
-      "BidPrice3 double, "
-      "BidVolume3 double, "
-      "AskPrice3 double, "
-      "AskVolume3 double, "
-      "BidPrice4 double, "
-      "BidVolume4 double, "
-      "AskPrice4 double, "
-      "AskVolume4 double, "
-      "BidPrice5 double, "
-      "BidVolume5 double, "
-      "AskPrice5 double, "
-      "AskVolume5 double, "
-      "AveragePrice double, "
-      "ActionDay varchar(10), "
-      "time_stamp varchar(50) );";
+  if( !checkTable(tbl_name) )
+  {
+    createTable(tbl_name, mdata);
 
-  DB_INFO <<create_sql;
+    instrus_hash_.insert( str_hash(tbl_name) );
+  }
 
-  json::StringBuffer buf;
-  json::Writer<json::StringBuffer> writer( buf );
+  insertData(tbl_name, mdata);
 
-  doc.Accept( writer );
+}
 
-  DB_INFO <<buf.GetString();
+bool DBServer::checkTable(const std::string& tbl_name)
+{
+  DB_TRACE <<"DBServer::checkTable()";
+
+    std::string check_table_sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='";
+  check_table_sql += tbl_name + "';";
+  bool exist_table = false;
+
+  char *err_msg = 0;
+  sqlite3_stmt *res;
+  
+  int rc = sqlite3_prepare_v2(db_, check_table_sql.data(), -1, &res, 0);
+
+  if( rc!=SQLITE_OK )
+  {
+    std::string err_msg = "Failed to check table.\n";
+    err_msg += "SQL ERROR: ";
+    err_msg += sqlite3_errmsg(db_);
+
+    throw std::runtime_error(err_msg);
+  }
+
+  int step = sqlite3_step(res);
+  
+  if (step == SQLITE_ROW)
+  {
+    exist_table = true;
+  }
+
+  sqlite3_finalize(res);
+
+  return exist_table;
+}
+
+
+void DBServer::createTable(const std::string& tbl_name, rapidjson::Value& mdata)
+{
+  DB_TRACE <<"DBServer::createTable()";
+
+  std::string create_table_sql = "CREATE TABLE " + tbl_name + " (";
+
+  for (rapidjson::Value::ConstMemberIterator itr = mdata.MemberBegin();
+       itr != mdata.MemberEnd(); ++itr)
+  {
+    create_table_sql += itr->name.GetString();
+    create_table_sql += " varchar(50)";
+
+    if( itr+1==mdata.MemberEnd() )
+    {
+      create_table_sql += ");";
+    }
+    else
+    {
+      create_table_sql += ",";
+    }
+  }
+
+  DB_INFO <<create_table_sql;
+
+
+  char* err_msg = 0;
+  int rc = sqlite3_exec(db_, create_table_sql.data(), 0, 0, &err_msg);
+
+  if( rc!=SQLITE_OK )
+  {
+    std::string err = "create table failed.\n";
+    err += "SQL ERROR: ";
+    err += err_msg;
+
+    sqlite3_free(err_msg);
+
+    throw std::runtime_error( err );
+  }
+  
+}
+
+void DBServer::insertData(const std::string& tbl_name, rapidjson::Value& mdata)
+{
+  DB_TRACE <<"DBServer::insertData()";
+
+  std::hash<std::string> str_hash;
+
+  sqlite3_stmt *insert_stmt = 0;
+
+  InsertSqlMap::iterator itr = insert_sqls_.find( str_hash(tbl_name) );
+  if( itr==insert_sqls_.end() )
+  {
+    std::string insert_table_sql = "INSERT INTO " + tbl_name + " VALUES(";
+    
+    for (rapidjson::Value::ConstMemberIterator itr = mdata.MemberBegin();
+         itr != mdata.MemberEnd(); ++itr)
+    {
+      insert_table_sql += "@";
+      insert_table_sql += itr->name.GetString();
+
+      if( itr+1==mdata.MemberEnd() )
+      {
+        insert_table_sql += ");";
+      }
+      else
+      {
+        insert_table_sql += ",";
+      }
+    }
+
+    DB_INFO <<insert_table_sql;
+
+    char *err_msg = 0;
+    sqlite3_stmt *res;
+  
+    int rc = sqlite3_prepare_v2(db_, insert_table_sql.data(), -1, &res, 0);
+
+    if( rc!=SQLITE_OK )
+    {
+      std::string err_msg = "Failed to insert table.\n";
+      err_msg += "SQL ERROR: ";
+      err_msg += sqlite3_errmsg(db_);
+
+      throw std::runtime_error(err_msg);
+    }
+
+    insert_sqls_[str_hash(tbl_name)] = res;
+
+    insert_stmt = res;
+  }
+  else
+  {
+    insert_stmt = itr->second;
+  }
+
+  assert( insert_stmt );
+
+  sqlite3_reset( insert_stmt );
+  
+  for (rapidjson::Value::ConstMemberIterator itr = mdata.MemberBegin();
+       itr != mdata.MemberEnd(); ++itr)
+  {
+    std::string name = "@";
+    name += itr->name.GetString();
+    int idx = sqlite3_bind_parameter_index(insert_stmt, name.data());
+    std::string value(itr->value.GetString());
+    
+    // DB_DEBUG <<"idx: " <<idx <<" name: " <<name
+    //          <<" value: " <<value;
+    int rc = sqlite3_bind_text(insert_stmt, idx, value.data(), value.length(), SQLITE_TRANSIENT);
+    if( rc!=SQLITE_OK )
+    {
+      std::string err_msg = "Failed to bind data.\n";
+      err_msg += "SQL ERROR: ";
+      err_msg += sqlite3_errmsg(db_);
+
+      throw std::runtime_error(err_msg);
+    }
+
+  }
+
+  int rc = sqlite3_step( insert_stmt );
+  if( rc!=SQLITE_DONE )
+  {
+    std::string err_msg = "Failed to insert data into table.\n";
+    err_msg += "SQL ERROR: ";
+    err_msg += sqlite3_errmsg(db_);
+
+    throw std::runtime_error(err_msg);
+  }
+  
 }
 
 };
