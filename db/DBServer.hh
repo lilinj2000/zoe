@@ -27,8 +27,6 @@ class DBServer
 
   void processMsg(const std::string& msg);
 
-  bool checkTable(const std::string& tbl_name);
-  
   void createTable(const std::string& tbl_name, rapidjson::Value& mdata);
 
   void insertData(const std::string& tbl_name, rapidjson::Value& mdata);

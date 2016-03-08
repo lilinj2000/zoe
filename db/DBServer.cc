@@ -127,57 +127,19 @@ void DBServer::processMsg(const std::string& msg)
     return ;
   }
 
-  if( !checkTable(tbl_name) )
-  {
-    createTable(tbl_name, mdata);
+  createTable(tbl_name, mdata);
 
-    instrus_hash_.insert( str_hash(tbl_name) );
-  }
+  instrus_hash_.insert( str_hash(tbl_name) );
 
   insertData(tbl_name, mdata);
 
 }
 
-bool DBServer::checkTable(const std::string& tbl_name)
-{
-  DB_TRACE <<"DBServer::checkTable()";
-
-    std::string check_table_sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='";
-  check_table_sql += tbl_name + "';";
-  bool exist_table = false;
-
-  char *err_msg = 0;
-  sqlite3_stmt *res;
-  
-  int rc = sqlite3_prepare_v2(db_, check_table_sql.data(), -1, &res, 0);
-
-  if( rc!=SQLITE_OK )
-  {
-    std::string err_msg = "Failed to check table.\n";
-    err_msg += "SQL ERROR: ";
-    err_msg += sqlite3_errmsg(db_);
-
-    throw std::runtime_error(err_msg);
-  }
-
-  int step = sqlite3_step(res);
-  
-  if (step == SQLITE_ROW)
-  {
-    exist_table = true;
-  }
-
-  sqlite3_finalize(res);
-
-  return exist_table;
-}
-
-
 void DBServer::createTable(const std::string& tbl_name, rapidjson::Value& mdata)
 {
   DB_TRACE <<"DBServer::createTable()";
 
-  std::string create_table_sql = "CREATE TABLE " + tbl_name + " (";
+  std::string create_table_sql = "CREATE TABLE IF NOT EXISTS " + tbl_name + " (";
 
   for (rapidjson::Value::ConstMemberIterator itr = mdata.MemberBegin();
        itr != mdata.MemberEnd(); ++itr)
