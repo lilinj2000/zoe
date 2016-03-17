@@ -255,9 +255,9 @@ SQLITE_HOME = @SQLITE_HOME@
 SQLITE_LIBADD = @SQLITE_LIBADD@
 STRIP = @STRIP@
 VERSION = @VERSION@
-ZMQ_CPPFLAGS = @ZMQ_CPPFLAGS@
-ZMQ_HOME = @ZMQ_HOME@
-ZMQ_LIBADD = @ZMQ_LIBADD@
+ZOD_CPPFLAGS = @ZOD_CPPFLAGS@
+ZOD_HOME = @ZOD_HOME@
+ZOD_LIBADD = @ZOD_LIBADD@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -320,14 +320,14 @@ db_SOURCES = \
 db_CPPFLAGS = \
 		$(BOOST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
-		$(ZMQ_CPPFLAGS) \
+		$(ZOD_CPPFLAGS) \
 		$(SQLITE_CPPFLAGS) \
 		$(RAPIDJSON_CPPFLAGS)
 
 db_LDADD = \
 	$(BOOST_LIBADD) \
 	$(SOIL_LIBADD) \
-	$(ZMQ_LIBADD) \
+	$(ZOD_LIBADD) \
 	$(SQLITE_LIBADD)
 
 db_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread

@@ -2,7 +2,6 @@
 #include "DBConfig.hh"
 #include "DBLog.hh"
 
-#include "zmq.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
@@ -14,8 +13,6 @@ namespace db
 
 DBServer::DBServer(DBOptions* options):
     options_(options),
-    context_(nullptr),
-    sub_(nullptr),
     db_(nullptr)
 {
   DB_TRACE <<"DBServer::DBServer()";
@@ -29,39 +26,18 @@ DBServer::DBServer(DBOptions* options):
     throw std::runtime_error( err+sqlite3_errmsg(db_) );
   }
 
-  callback_.reset( new MsgCallback(this) );
-  msg_queue_.reset(new soil::MsgQueue<std::string, MsgCallback>(callback_.get()) );
+  callback_.reset( new db::MsgCallback(this) );
   
-  context_ = zmq_ctx_new();
-  assert( context_ );
-  
-  sub_ = zmq_socket(context_, ZMQ_SUB);
-  assert( sub_ );
-  
+  msg_queue_.reset(new soil::MsgQueue<std::string, db::MsgCallback>(callback_.get()) );
+
   DB_INFO <<"xpub_addr: " <<options_->xpub_addr;
-  if( zmq_connect(sub_, options_->xpub_addr.data())<0 )
-  {
-    std::string err = "connect xpub failed.\n";
-    throw std::runtime_error( err+zmq_strerror(zmq_errno()) );
-  }
-
-  if( zmq_setsockopt(sub_, ZMQ_SUBSCRIBE, "", 0)<0 )
-  {
-    std::string err = "set subscribe options failed.\n";
-    throw std::runtime_error( err+zmq_strerror(zmq_errno()) );
-  }
-
-  run();
+  sub_service_.reset( zod::SubService::create(options_->xpub_addr, this) );
 }
 
 DBServer::~DBServer()
 {
   DB_TRACE <<"DBServer::~DBServer()";
   
-  zmq_close( sub_ );
-  
-  zmq_ctx_destroy( context_ );
-
   for(InsertSqlMap::iterator itr=insert_sqls_.begin();
       itr!=insert_sqls_.end(); ++itr)
   {
@@ -72,30 +48,11 @@ DBServer::~DBServer()
 
 }
 
-void DBServer::run()
+void DBServer::msgCallback(const zod::Msg* msg)
 {
-  DB_TRACE <<"DBServer::run()";
-
-  do
-  {
-    zmq_msg_t msg;
-    zmq_msg_init( &msg );
-
-    if( zmq_msg_recv(&msg, sub_, 0)<0 )
-    {
-      DB_ERROR <<"recv msg failed.\n"
-                 <<zmq_strerror(zmq_errno());
-    }
-    else
-    {
-      DB_DEBUG <<"recv msg ...";
-
-      msg_queue_->pushMsg( new std::string((char*)zmq_msg_data(&msg)) );
-    }
-
-    zmq_msg_close( &msg );
-    
-  }while( true );
+  std::string data( (char*)msg->data_.get() );
+  
+  msg_queue_->pushMsg( new std::string(data) );
 }
 
 void DBServer::processMsg(const std::string& msg)

@@ -636,6 +636,9 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIB@&t@OBJS
+ZOD_LIBADD
+ZOD_CPPFLAGS
+ZOD_HOME
 CATA_LIBADD
 CATA_CPPFLAGS
 CATA_HOME
@@ -650,9 +653,6 @@ RAPIDJSON_HOME
 SQLITE_LIBADD
 SQLITE_CPPFLAGS
 SQLITE_HOME
-ZMQ_LIBADD
-ZMQ_CPPFLAGS
-ZMQ_HOME
 LT_AGE
 LT_REVISION
 LT_CURRENT
@@ -788,12 +788,12 @@ enable_fast_install
 with_gnu_ld
 with_sysroot
 enable_libtool_lock
-with_zmq
 with_sqlite
 with_rapidjson
 with_boost
 with_soil
 with_cata
+with_zod
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1446,13 +1446,13 @@ Optional Packages:
   --with-gnu-ld           assume the C compiler uses GNU ld @<:@default=no@:>@
   --with-sysroot=DIR Search for dependent libraries within DIR
                         (or the compiler's sysroot if not specified).
-  --with-zmq              home path of the zmq, defaults to @S|@ZMQ_HOME
   --with-sqlite           home path of the sqlite, defaults to @S|@SQLITE_HOME
   --with-rapidjson        home path of the rapidjson, defaults to
                           @S|@RAPIDJSON_HOME
   --with-boost            home path of the boost, defaults to @S|@home_3rd/boost
   --with-soil             home path of the soil, defaults to @S|@home_libs/soil
   --with-cata             home path of the cata, defaults to @S|@CATA_HOME
+  --with-zod              home path of the zod, defaults to @S|@ZOD_HOME
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -15129,22 +15129,6 @@ if test -d /llj/libs ; then
    home_libs=/llj/libs
 fi
 
-ZMQ_HOME=$home_3rd/libzmq
-
-@%:@ Check whether --with-zmq was given.
-if test "${with_zmq+set}" = set; then :
-  withval=$with_zmq; ZMQ_HOME="$withval"
-else
-  ZMQ_HOME="$ZMQ_HOME"
-fi
-
-
-
-ZMQ_CPPFLAGS="-I$ZMQ_HOME/include"
-ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
-
-
-
 SQLITE_HOME=$home_3rd/sqlite
 
 @%:@ Check whether --with-sqlite was given.
@@ -15229,8 +15213,24 @@ CATA_LIBADD="$CATA_HOME/lib/libcata.la"
 
 
 
+ZOD_HOME=$home_libs/zod
 
-ac_config_files="$ac_config_files Makefile proxy/Makefile md/Makefile text/Makefile db/Makefile"
+@%:@ Check whether --with-zod was given.
+if test "${with_zod+set}" = set; then :
+  withval=$with_zod; ZOD_HOME="$withval"
+else
+  ZOD_HOME="$ZOD_HOME"
+fi
+
+
+
+ZOD_CPPFLAGS="-I$ZOD_HOME/include"
+ZOD_LIBADD="$ZOD_HOME/lib/libzod.la"
+
+
+
+
+ac_config_files="$ac_config_files Makefile md/Makefile text/Makefile db/Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -16355,7 +16355,6 @@ do
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "proxy/Makefile") CONFIG_FILES="$CONFIG_FILES proxy/Makefile" ;;
     "md/Makefile") CONFIG_FILES="$CONFIG_FILES md/Makefile" ;;
     "text/Makefile") CONFIG_FILES="$CONFIG_FILES text/Makefile" ;;
     "db/Makefile") CONFIG_FILES="$CONFIG_FILES db/Makefile" ;;

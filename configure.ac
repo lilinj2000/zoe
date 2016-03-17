@@ -45,20 +45,6 @@ if test -d /llj/libs ; then
    home_libs=/llj/libs
 fi
 
-dnl libzmq lib
-ZMQ_HOME=$home_3rd/libzmq
-AC_ARG_WITH([zmq], 
-    [AS_HELP_STRING([--with-zmq],
-        [home path of the zmq, defaults to $ZMQ_HOME])],
-    [ZMQ_HOME="$withval"],
-    [ZMQ_HOME="$ZMQ_HOME"])
-AC_SUBST([ZMQ_HOME])
-
-ZMQ_CPPFLAGS="-I$ZMQ_HOME/include"
-ZMQ_LIBADD="$ZMQ_HOME/lib/libzmq.la"
-AC_SUBST(ZMQ_CPPFLAGS)
-AC_SUBST(ZMQ_LIBADD)
-
 dnl sqlite lib
 SQLITE_HOME=$home_3rd/sqlite
 AC_ARG_WITH([sqlite], 
@@ -133,10 +119,23 @@ CATA_LIBADD="$CATA_HOME/lib/libcata.la"
 AC_SUBST(CATA_CPPFLAGS)
 AC_SUBST(CATA_LIBADD)
 
+dnl zod lib
+ZOD_HOME=$home_libs/zod
+AC_ARG_WITH([zod], 
+    [AS_HELP_STRING([--with-zod],
+        [home path of the zod, defaults to $ZOD_HOME])],
+    [ZOD_HOME="$withval"],
+    [ZOD_HOME="$ZOD_HOME"])
+AC_SUBST([ZOD_HOME])
+
+ZOD_CPPFLAGS="-I$ZOD_HOME/include"
+ZOD_LIBADD="$ZOD_HOME/lib/libzod.la"
+AC_SUBST(ZOD_CPPFLAGS)
+AC_SUBST(ZOD_LIBADD)
+
 
 AC_OUTPUT([
 	Makefile
-	proxy/Makefile
 	md/Makefile
 	text/Makefile
 	db/Makefile])

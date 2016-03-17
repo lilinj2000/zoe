@@ -9,13 +9,13 @@ md_SOURCES = \
 md_CPPFLAGS =  \
 		$(BOOST_CPPFLAGS) \
 		$(SOIL_CPPFLAGS) \
-		$(ZMQ_CPPFLAGS) \
+		$(ZOD_CPPFLAGS) \
 		$(CATA_CPPFLAGS)
 
 md_LDADD = \
 	$(BOOST_LIBADD) \
 	$(SOIL_LIBADD) \
-	$(ZMQ_LIBADD) \
+	$(ZOD_LIBADD) \
 	$(CATA_LIBADD)
 
 

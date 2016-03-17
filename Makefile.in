@@ -276,9 +276,9 @@ SQLITE_HOME = @SQLITE_HOME@
 SQLITE_LIBADD = @SQLITE_LIBADD@
 STRIP = @STRIP@
 VERSION = @VERSION@
-ZMQ_CPPFLAGS = @ZMQ_CPPFLAGS@
-ZMQ_HOME = @ZMQ_HOME@
-ZMQ_LIBADD = @ZMQ_LIBADD@
+ZOD_CPPFLAGS = @ZOD_CPPFLAGS@
+ZOD_HOME = @ZOD_HOME@
+ZOD_LIBADD = @ZOD_LIBADD@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -333,7 +333,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = proxy md text db
+SUBDIRS = md text db
 EXTRA_DIST = deploy.sh
 all: all-recursive
 

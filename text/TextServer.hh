@@ -2,6 +2,7 @@
 #define TEXT_SERVER_HH
 
 #include "soil/DataFile.hh"
+#include "zod/SubService.hh"
 
 namespace text
 {
@@ -29,12 +30,14 @@ class MData : public soil::Data
 
 class TextOptions;
 
-class TextServer
+class TextServer : public zod::MsgCallback
 {
  public:
   TextServer(TextOptions* options);
 
   virtual ~TextServer();
+
+  virtual void msgCallback(const zod::Msg*);
 
  protected:
   
@@ -43,10 +46,9 @@ class TextServer
  private:
 
   TextOptions* options_;
-  
-  void* context_;
-  void* sub_;
 
+  std::unique_ptr<zod::SubService> sub_service_;
+  
   std::unique_ptr<soil::DataFile> text_file_;
 };
 

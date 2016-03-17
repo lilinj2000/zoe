@@ -2,6 +2,7 @@
 #define MD_SERVER_HH
 
 #include "cata/MDService.hh"
+#include "zod/PubService.hh"
 
 namespace md
 {
@@ -45,9 +46,8 @@ class MDServer : public cata::MDServiceCallback
   MDOptions* options_;
 
   std::unique_ptr<cata::MDService> md_service_;
-  
-  void* context_;
-  void* pub_;
+
+  std::unique_ptr<zod::PubService> pub_service_;
   
 };
 

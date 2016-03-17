@@ -5,6 +5,8 @@
 #include "soil/MsgQueue.hh"
 #include "rapidjson/document.h"
 
+#include "zod/SubService.hh"
+
 #include <set>
 #include <map>
 
@@ -14,16 +16,16 @@ namespace db
 class DBOptions;
 class MsgCallback;
 
-class DBServer
+class DBServer : public zod::MsgCallback
 {
  public:
   DBServer(DBOptions* options);
 
   virtual ~DBServer();
 
- protected:
+  virtual void msgCallback(const zod::Msg*);
 
-  void run();
+ protected:
 
   void processMsg(const std::string& msg);
 
@@ -33,17 +35,16 @@ class DBServer
   
  private:
 
-  friend class MsgCallback;
+  friend class db::MsgCallback;
 
   DBOptions* options_;
 
   sqlite3* db_;
   
-  void* context_;
-  void* sub_;
-
-  std::unique_ptr<MsgCallback> callback_;
-  std::unique_ptr<soil::MsgQueue<std::string, MsgCallback> > msg_queue_;
+  std::unique_ptr<zod::SubService> sub_service_;
+  
+  std::unique_ptr<db::MsgCallback> callback_;
+  std::unique_ptr<soil::MsgQueue<std::string, db::MsgCallback> > msg_queue_;
 
   std::set<size_t> instrus_hash_;
 
