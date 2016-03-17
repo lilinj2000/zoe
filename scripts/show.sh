@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ps aux | grep -i [p]roxy
+ps aux | grep -i [f]orwarder
 
 ps aux | grep -i [t]ext
 

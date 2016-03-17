@@ -2,10 +2,10 @@
 
 cur_dir=`pwd`
 
-####proxy####
-cd $cur_dir/../proxy
+####forwwarder####
+cd /llj/libs/zod/bin
 . ./env.sh
-./proxy >/dev/null 2>&1 &
+./forwarder >/dev/null 2>&1 &
 
 ####text sub####
 cd $cur_dir/../text
