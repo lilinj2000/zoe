@@ -37,14 +37,6 @@ AC_SUBST(LT_AGE)
 home_3rd=~/3rd
 home_libs=~/libs
 
-if test -d /llj/3rd ; then
-   home_3rd=/llj/3rd
-fi
-
-if test -d /llj/libs ; then
-   home_libs=/llj/libs
-fi
-
 dnl sqlite lib
 SQLITE_HOME=$home_3rd/sqlite
 AC_ARG_WITH([sqlite], 
@@ -115,9 +107,9 @@ AC_ARG_WITH([cata],
 AC_SUBST([CATA_HOME])
 
 CATA_CPPFLAGS="-I$CATA_HOME/include"
-CATA_LIBADD="$CATA_HOME/lib/libcata.la"
+CATA_MD_LIBADD="$CATA_HOME/lib/libcata_md.la"
 AC_SUBST(CATA_CPPFLAGS)
-AC_SUBST(CATA_LIBADD)
+AC_SUBST(CATA_MD_LIBADD)
 
 dnl zod lib
 ZOD_HOME=$home_libs/zod

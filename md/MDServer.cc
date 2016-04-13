@@ -17,9 +17,8 @@ MDServer::MDServer(MDConfig* config):
 
   MD_INFO <<"xsub_addr: " <<options_->xsub_addr;
 
-  pub_service_.reset( zod::PubService::create(options_->xsub_addr, zod::CONNECT) );
-
-  md_service_.reset( cata::MDService::createService(config->cataMDOptions(), this) );
+  pub_service_.reset(zod::PubService::create(options_->xsub_addr));
+  md_service_.reset(cata::MDService::createService(config->cataMDOptions(), this));
   
   cata::InstrumentSet instrus;
   instrus.insert( options_->instru );
@@ -31,17 +30,21 @@ MDServer::~MDServer()
   MD_TRACE <<"MDServer::~MDServer()";
 }
 
-void MDServer::onRtnMarketData(const cata::DepthMarketData* data)
+void MDServer::onRspMessage(const std::string& msg)
 {
-  MD_TRACE <<"MDServer::onRtnMarketData()";
+  MD_TRACE <<"MDServer::onRspMessage()";
 
-  std::stringstream ss;
-  ss <<*data;
+  MD_INFO <<msg;
+}
 
-  MD_DEBUG <<"pub msg:\n"
-           <<ss.str();
+void MDServer::onRtnMessage(const std::string& msg)
+{
+  MD_TRACE <<"MDServer::onRtnMessage()";
 
-  pub_service_->sendMsg( ss.str() );
+  MD_INFO <<"pub msg:\n"
+           <<msg;
+
+  pub_service_->sendMsg(msg);
 }
 
 };

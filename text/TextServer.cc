@@ -21,12 +21,13 @@ TextServer::TextServer(TextOptions* options):
 TextServer::~TextServer()
 {
   TEXT_TRACE <<"TextServer::~TextServer()";
-  
 }
 
 void TextServer::msgCallback(const zod::Msg* msg)
 {
-  std::string data( (char*)msg->data_.get() );
+  TEXT_TRACE <<"TextServer::msgCallback()";
+  
+  std::string data((char*)msg->data_.get());
   
   text_file_->putData( new MData(data) );
 }

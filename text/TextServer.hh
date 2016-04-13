@@ -19,9 +19,9 @@ class MData : public soil::Data
   {
   }
 
-  virtual void writeToFile(std::ofstream& os) const
+  virtual void writeToFile(std::ofstream* os) const
   {
-    os <<data_;
+    (*os) <<data_;
   }
 
  private:

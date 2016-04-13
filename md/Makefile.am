@@ -16,7 +16,7 @@ md_LDADD = \
 	$(BOOST_LIBADD) \
 	$(SOIL_LIBADD) \
 	$(ZOD_LIBADD) \
-	$(CATA_LIBADD)
+	$(CATA_MD_LIBADD)
 
 
 md_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread

@@ -639,7 +639,7 @@ LIB@&t@OBJS
 ZOD_LIBADD
 ZOD_CPPFLAGS
 ZOD_HOME
-CATA_LIBADD
+CATA_MD_LIBADD
 CATA_CPPFLAGS
 CATA_HOME
 SOIL_LIBADD
@@ -15311,14 +15311,6 @@ LT_AGE=0
 home_3rd=~/3rd
 home_libs=~/libs
 
-if test -d /llj/3rd ; then
-   home_3rd=/llj/3rd
-fi
-
-if test -d /llj/libs ; then
-   home_libs=/llj/libs
-fi
-
 SQLITE_HOME=$home_3rd/sqlite
 
 @%:@ Check whether --with-sqlite was given.
@@ -15399,7 +15391,7 @@ fi
 
 
 CATA_CPPFLAGS="-I$CATA_HOME/include"
-CATA_LIBADD="$CATA_HOME/lib/libcata.la"
+CATA_MD_LIBADD="$CATA_HOME/lib/libcata_md.la"
 
 
 

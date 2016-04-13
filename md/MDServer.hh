@@ -10,36 +10,16 @@ namespace md
 class MDOptions;
 class MDConfig;
 
-class MDServer : public cata::MDServiceCallback
+class MDServer : public cata::ServiceCallback
 {
  public:
   MDServer(MDConfig* config);
 
   virtual ~MDServer();
 
-  virtual void onRspSubMarketData(const std::string& instru, bool success)
-  {
-  }
+  virtual void onRspMessage(const std::string& msg);
 
-  virtual void onRspSubQuoteData(const std::string& instru, bool success)
-  {
-  }
-  
-  virtual void onRspUnsubMarketData(const std::string& instru, bool success)
-  {
-  }
-
-  virtual void onRspUnsubQuoteData(const std::string& instru, bool success)
-  {
-  }
-  
-  virtual void onRtnMarketData(const cata::DepthMarketData* data);
-
-  virtual void onRtnQuoteData() {}
-  
-  virtual void onRspError(int errord_id, const std::string& error_msg)
-  {
-  }
+  virtual void onRtnMessage(const std::string& msg);
 
  private:
 
