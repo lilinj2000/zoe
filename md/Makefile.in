@@ -95,7 +95,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_md_OBJECTS = md-MDConfig.$(OBJEXT) md-MDServer.$(OBJEXT) \
+am_md_OBJECTS = md-Config.$(OBJEXT) md-Server.$(OBJEXT) \
 	md-Main.$(OBJEXT)
 md_OBJECTS = $(am_md_OBJECTS)
 am__DEPENDENCIES_1 =
@@ -313,8 +313,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 md_SOURCES = \
-	MDConfig.cc \
-	MDServer.cc \
+	Config.cc \
+	Server.cc \
 	Main.cc
 
 md_CPPFLAGS = \
@@ -332,7 +332,7 @@ md_LDADD = \
 md_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
 # header files
-noinst_HEADERS = MDConfig.hh MDLog.hh MDServer.hh 
+noinst_HEADERS = Config.hh Log.hh Server.hh 
 EXTRA_DIST = env.sh md.cfg log.cfg
 all: all-am
 
@@ -428,9 +428,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-MDConfig.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-MDServer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-Config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md-Server.Po@am__quote@
 
 .cc.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -453,33 +453,33 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-md-MDConfig.o: MDConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDConfig.o -MD -MP -MF $(DEPDIR)/md-MDConfig.Tpo -c -o md-MDConfig.o `test -f 'MDConfig.cc' || echo '$(srcdir)/'`MDConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDConfig.Tpo $(DEPDIR)/md-MDConfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDConfig.cc' object='md-MDConfig.o' libtool=no @AMDEPBACKSLASH@
+md-Config.o: Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-Config.o -MD -MP -MF $(DEPDIR)/md-Config.Tpo -c -o md-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-Config.Tpo $(DEPDIR)/md-Config.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='md-Config.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDConfig.o `test -f 'MDConfig.cc' || echo '$(srcdir)/'`MDConfig.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-Config.o `test -f 'Config.cc' || echo '$(srcdir)/'`Config.cc
 
-md-MDConfig.obj: MDConfig.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDConfig.obj -MD -MP -MF $(DEPDIR)/md-MDConfig.Tpo -c -o md-MDConfig.obj `if test -f 'MDConfig.cc'; then $(CYGPATH_W) 'MDConfig.cc'; else $(CYGPATH_W) '$(srcdir)/MDConfig.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDConfig.Tpo $(DEPDIR)/md-MDConfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDConfig.cc' object='md-MDConfig.obj' libtool=no @AMDEPBACKSLASH@
+md-Config.obj: Config.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-Config.obj -MD -MP -MF $(DEPDIR)/md-Config.Tpo -c -o md-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-Config.Tpo $(DEPDIR)/md-Config.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Config.cc' object='md-Config.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDConfig.obj `if test -f 'MDConfig.cc'; then $(CYGPATH_W) 'MDConfig.cc'; else $(CYGPATH_W) '$(srcdir)/MDConfig.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-Config.obj `if test -f 'Config.cc'; then $(CYGPATH_W) 'Config.cc'; else $(CYGPATH_W) '$(srcdir)/Config.cc'; fi`
 
-md-MDServer.o: MDServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDServer.o -MD -MP -MF $(DEPDIR)/md-MDServer.Tpo -c -o md-MDServer.o `test -f 'MDServer.cc' || echo '$(srcdir)/'`MDServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDServer.Tpo $(DEPDIR)/md-MDServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDServer.cc' object='md-MDServer.o' libtool=no @AMDEPBACKSLASH@
+md-Server.o: Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-Server.o -MD -MP -MF $(DEPDIR)/md-Server.Tpo -c -o md-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-Server.Tpo $(DEPDIR)/md-Server.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='md-Server.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDServer.o `test -f 'MDServer.cc' || echo '$(srcdir)/'`MDServer.cc
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-Server.o `test -f 'Server.cc' || echo '$(srcdir)/'`Server.cc
 
-md-MDServer.obj: MDServer.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-MDServer.obj -MD -MP -MF $(DEPDIR)/md-MDServer.Tpo -c -o md-MDServer.obj `if test -f 'MDServer.cc'; then $(CYGPATH_W) 'MDServer.cc'; else $(CYGPATH_W) '$(srcdir)/MDServer.cc'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-MDServer.Tpo $(DEPDIR)/md-MDServer.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='MDServer.cc' object='md-MDServer.obj' libtool=no @AMDEPBACKSLASH@
+md-Server.obj: Server.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-Server.obj -MD -MP -MF $(DEPDIR)/md-Server.Tpo -c -o md-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/md-Server.Tpo $(DEPDIR)/md-Server.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Server.cc' object='md-Server.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-MDServer.obj `if test -f 'MDServer.cc'; then $(CYGPATH_W) 'MDServer.cc'; else $(CYGPATH_W) '$(srcdir)/MDServer.cc'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md-Server.obj `if test -f 'Server.cc'; then $(CYGPATH_W) 'Server.cc'; else $(CYGPATH_W) '$(srcdir)/Server.cc'; fi`
 
 md-Main.o: Main.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(md_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT md-Main.o -MD -MP -MF $(DEPDIR)/md-Main.Tpo -c -o md-Main.o `test -f 'Main.cc' || echo '$(srcdir)/'`Main.cc

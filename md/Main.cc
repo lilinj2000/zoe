@@ -1,24 +1,18 @@
 #include <memory>
-#include "MDConfig.hh"
-#include "MDServer.hh"
-#include "soil/STimer.hh"
+#include "Config.hh"
+#include "Server.hh"
+#include "soil/Pause.hh"
 
 int main(int argc, char* argv[])
 {
 
-  std::unique_ptr<md::MDConfig> config;
-  config.reset( new md::MDConfig(argc, argv) );
+  std::unique_ptr<md::Config> config;
+  config.reset( new md::Config(argc, argv) );
 
-  std::unique_ptr<md::MDServer> server;
-  server.reset( new md::MDServer(config.get()) );
+  std::unique_ptr<md::Server> server;
+  server.reset( new md::Server(config.get()) );
   
-  std::unique_ptr<soil::STimer> cond;
-  cond.reset( soil::STimer::create() );
-
-  do
-  {
-    cond->wait(2000);
-  }while(true);
+  std::unique_ptr<soil::Pause> pause(soil::Pause::create());
   
   return 0;
 }

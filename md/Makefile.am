@@ -2,8 +2,8 @@ AUTOMAKE_OPTIONS = foreign
 
 bin_PROGRAMS = md
 md_SOURCES = \
-	MDConfig.cc \
-	MDServer.cc \
+	Config.cc \
+	Server.cc \
 	Main.cc
 
 md_CPPFLAGS =  \
@@ -22,7 +22,7 @@ md_LDADD = \
 md_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
 # header files
-noinst_HEADERS = MDConfig.hh MDLog.hh MDServer.hh 
+noinst_HEADERS = Config.hh Log.hh Server.hh 
 
 EXTRA_DIST = env.sh md.cfg log.cfg
 

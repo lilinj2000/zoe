@@ -7,28 +7,25 @@
 namespace md
 {
 
-class MDOptions;
-class MDConfig;
+class Options;
+class Config;
 
-class MDServer : public cata::ServiceCallback
+class Server : public cata::ServiceCallback
 {
  public:
-  MDServer(MDConfig* config);
+  Server(Config* config);
 
-  virtual ~MDServer();
+  virtual ~Server();
 
   virtual void onRspMessage(const std::string& msg);
 
   virtual void onRtnMessage(const std::string& msg);
 
  private:
-
-  MDOptions* options_;
-
-  std::unique_ptr<cata::MDService> md_service_;
-
-  std::unique_ptr<zod::PubService> pub_service_;
+  Options* options_;
   
+  std::unique_ptr<zod::PubService> pub_service_;
+  std::unique_ptr<cata::MDService> md_service_;
 };
 
 

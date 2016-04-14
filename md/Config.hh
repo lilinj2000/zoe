@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 #include "soil/Config.hh"
 
 namespace md
@@ -10,19 +11,19 @@ namespace md
 
 namespace po = boost::program_options;
 
-class MDOptions : public soil::Options
+class Options : public soil::Options
 {
  public:
 
-  MDOptions();
+  Options();
   
-  virtual ~MDOptions();
+  virtual ~Options();
 
   virtual po::options_description* configOptions();
 
-  std::string instru;
+  std::vector<std::string> instrus;
   
-  std::string xsub_addr;
+  std::string proxy_addr;
 
   std::string log_cfg;
 
@@ -30,14 +31,14 @@ class MDOptions : public soil::Options
   boost::program_options::options_description config_options_;
 };
 
-class MDConfig
+class Config
 {
  public:
   
-  MDConfig(int argc=0, char* argv[]=NULL);
-  ~MDConfig();
+  Config(int argc=0, char* argv[]=NULL);
+  ~Config();
 
-  MDOptions* mdOptions()
+  Options* mdOptions()
   {
     return md_options_.get();
   }
@@ -48,7 +49,7 @@ class MDConfig
   }
 
  private:
-  std::unique_ptr<MDOptions> md_options_;
+  std::unique_ptr<Options> md_options_;
 
   std::unique_ptr<soil::Options> cata_md_options_;
 };

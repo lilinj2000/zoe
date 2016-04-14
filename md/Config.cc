@@ -1,5 +1,5 @@
-#include "MDConfig.hh"
-#include "MDLog.hh"
+#include "Config.hh"
+#include "Log.hh"
 #include "cata/MDService.hh"
 
 #include <fstream>
@@ -9,17 +9,17 @@
 namespace md
 {
 
-MDOptions::MDOptions():
+Options::Options():
     config_options_("MDConfigOptions")
 {
 
   namespace po = boost::program_options;
 
   config_options_.add_options()
-      ("md.instru", po::value<std::string>(&instru), 
-       "instrument")
-      ("md.xsub_addr", po::value<std::string>(&xsub_addr), 
-       "xsub address")
+      ("md.instru", po::value<std::vector<std::string>>(&instrus), 
+       "instruments")
+      ("md.proxy_addr", po::value<std::string>(&proxy_addr), 
+       "proxy address")
 
       ("md.log_cfg", po::value<std::string>(&log_cfg), 
        "log config file")
@@ -29,18 +29,18 @@ MDOptions::MDOptions():
   
 }
 
-MDOptions::~MDOptions()
+Options::~Options()
 {
 }
 
-po::options_description* MDOptions::configOptions()
+po::options_description* Options::configOptions()
 {
   return &config_options_;
 }
 
-MDConfig::MDConfig(int argc, char* argv[])
+Config::Config(int argc, char* argv[])
 {
-  md_options_.reset(new MDOptions());
+  md_options_.reset(new Options());
   cata_md_options_.reset( cata::MDService::createOptions() );
 
   std::auto_ptr<soil::Config> config( soil::Config::create() );
@@ -56,7 +56,7 @@ MDConfig::MDConfig(int argc, char* argv[])
   return;
 }
 
-MDConfig::~MDConfig()
+Config::~Config()
 {
 }
 
