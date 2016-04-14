@@ -1,3 +1,6 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef MD_CONFIG_HH
 #define MD_CONFIG_HH
 
@@ -6,24 +9,21 @@
 #include <vector>
 #include "soil/Config.hh"
 
-namespace md
-{
+namespace md {
 
 namespace po = boost::program_options;
 
-class Options : public soil::Options
-{
+class Options : public soil::Options {
  public:
-
   Options();
-  
+
   virtual ~Options();
 
   virtual po::options_description* configOptions();
 
   std::vector<std::string> instrus;
-  
-  std::string proxy_addr;
+  std::string pub_addr;
+  std::string pull_addr;
 
   std::string log_cfg;
 
@@ -31,20 +31,17 @@ class Options : public soil::Options
   boost::program_options::options_description config_options_;
 };
 
-class Config
-{
+class Config {
  public:
-  
-  Config(int argc=0, char* argv[]=NULL);
+  explicit Config(int argc = 0, char* argv[] = nullptr);
+
   ~Config();
 
-  Options* mdOptions()
-  {
+  Options* mdOptions() {
     return md_options_.get();
   }
 
-  soil::Options* cataMDOptions()
-  {
+  soil::Options* cataMDOptions() {
     return cata_md_options_.get();
   }
 
@@ -54,7 +51,6 @@ class Config
   std::unique_ptr<soil::Options> cata_md_options_;
 };
 
-}  
+};  // namespace md
 
-
-#endif 
+#endif

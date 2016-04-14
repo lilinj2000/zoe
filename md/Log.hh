@@ -1,3 +1,6 @@
+// Copyright (c) 2010
+// All rights reserved.
+
 #ifndef MD_LOG_HH
 #define MD_LOG_HH
 

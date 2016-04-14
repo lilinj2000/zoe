@@ -2,8 +2,8 @@
 
 cur_dir=`pwd`
 
-####proxy####
-cd ~/libs/zod/bin
+####forwarder proxy####
+cd ~/app/md_pub_proxy
 . ./env.sh
 ./proxy >/dev/null 2>&1 &
 

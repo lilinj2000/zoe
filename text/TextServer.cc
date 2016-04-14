@@ -27,7 +27,8 @@ void TextServer::msgCallback(const zod::Msg* msg)
 {
   TEXT_TRACE <<"TextServer::msgCallback()";
   
-  std::string data((char*)msg->data_.get());
+  std::string data((char*)msg->data_.get(), msg->len_);
+  data.push_back('\n');
   
   text_file_->putData( new MData(data) );
 }
