@@ -28,6 +28,8 @@ class Server : public cata::ServiceCallback, public zod::MsgCallback {
 
  protected:
   void subMarketData(const cata::InstrumentSet&);
+
+  void unsubMarketData(const cata::InstrumentSet&);
   
  private:
   Options* options_;

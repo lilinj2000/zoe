@@ -1,5 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = md text db
+SUBDIRS = md mdcli text db
 
 EXTRA_DIST = deploy.sh

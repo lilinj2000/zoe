@@ -2,6 +2,11 @@
 
 cur_dir=`pwd`
 
+####streamer proxy####
+cd ~/app/md_pull_proxy
+. ./env.sh
+./proxy >/dev/null 2>&1 &
+
 ####forwarder proxy####
 cd ~/app/md_pub_proxy
 . ./env.sh
@@ -23,6 +28,11 @@ sleep 1
 cd $cur_dir/../md
 . ./env.sh
 ./md >/dev/null 2>&1 &
+
+####mdcli push####
+# cd $cur_dir/../mdcli
+# . ./env.sh
+# ./mdcli >/dev/null 2>&1 &
 
 # cd $cur_dir
 

@@ -142,6 +142,7 @@ AC_SUBST(JSON_LIBADD)
 AC_OUTPUT([
 	Makefile
 	md/Makefile
+	mdcli/Makefile
 	text/Makefile
 	db/Makefile])
 

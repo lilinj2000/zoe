@@ -63,8 +63,16 @@ void Server::msgCallback(const zod::Msg* msg) {
   json::fromString(data, &doc);
 
   std::string cmd_sub = "SubMarketData";
+  std::string cmd_unsub = "UnsubMarketData";
+  std::string the_cmd;
   if (doc.HasMember(cmd_sub.data())) {
-    json::Value& req_sub = doc[cmd_sub.data()];
+    the_cmd = cmd_sub;
+  } else if (doc.HasMember(cmd_unsub.data())) {
+    the_cmd = cmd_unsub;
+  }
+
+  if (!the_cmd.empty()) {
+    json::Value& req_sub = doc[the_cmd.data()];
 
     std::string fld_instrus = "Instrus";
     if (req_sub.HasMember(fld_instrus.data())) {
@@ -75,7 +83,12 @@ void Server::msgCallback(const zod::Msg* msg) {
           for (int i = 0; i < instrus_array.Size(); ++i) {
             instrus.insert(instrus_array[i].GetString());
           }
-          subMarketData(instrus);
+
+          if (the_cmd == cmd_sub) {
+            subMarketData(instrus);
+          } else if (the_cmd == cmd_unsub) {
+            unsubMarketData(instrus);
+          }
           return;
       }
     }
@@ -89,6 +102,13 @@ void Server::subMarketData(const cata::InstrumentSet& instrus) {
   
   if (!instrus.empty())
     md_service_->subMarketData(instrus);
+}
+
+void Server::unsubMarketData(const cata::InstrumentSet& instrus) {
+  MD_TRACE <<"Server::unsubMarketData()";
+  
+  if (!instrus.empty())
+    md_service_->unsubMarketData(instrus);
 }
 
 };  // namespace md
