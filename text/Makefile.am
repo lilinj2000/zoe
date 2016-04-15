@@ -2,8 +2,8 @@ AUTOMAKE_OPTIONS = foreign
 
 bin_PROGRAMS = text
 text_SOURCES = \
-	TextConfig.cc \
-	TextServer.cc \
+	Config.cc \
+	Server.cc \
 	Main.cc
 
 text_CPPFLAGS =  \
@@ -20,7 +20,7 @@ text_LDADD = \
 text_LDFLAGS = $(LIBADD_DL) -Wl,--no-as-needed -pthread
 
 # header files
-noinst_HEADERS = TextConfig.hh TextLog.hh TextServer.hh 
+noinst_HEADERS = Config.hh Log.hh Server.hh 
 
 EXTRA_DIST = env.sh text.cfg log.cfg
 
